@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "posts",
+  "info": {
+    "singularName": "post",
+    "pluralName": "posts",
+    "displayName": "Post",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "postTitle": {
+      "type": "text",
+      "required": true,
+      "unique": false
+    },
+    "navigations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::navigation.navigation",
+      "inversedBy": "posts"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "profile": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "postContent": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "required": false,
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "postDescription": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "slug": {
+      "type": "text",
+      "required": true,
+      "unique": true
+    },
+    "product_category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-category.product-category",
+      "inversedBy": "posts"
+    }
+  }
+}

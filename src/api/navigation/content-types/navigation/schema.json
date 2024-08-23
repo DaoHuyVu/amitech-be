@@ -24,6 +24,44 @@
     },
     "parentNavigation": {
       "type": "string"
+    },
+    "menuLocation": {
+      "type": "string",
+      "required": false
+    },
+    "hasChildren": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "imageCover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "posts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::post.post",
+      "mappedBy": "navigations"
+    },
+    "navigation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::navigation.navigation",
+      "inversedBy": "childrenNavigations"
+    },
+    "childrenNavigations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::navigation.navigation",
+      "mappedBy": "navigation"
     }
   }
 }

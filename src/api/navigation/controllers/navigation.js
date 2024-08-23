@@ -6,4 +6,9 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::navigation.navigation');
+module.exports = createCoreController('api::navigation.navigation',({strapi}) => ({
+    
+    async findNavigations(ctx){
+        return strapi.service('api::navigation.navigation').findNavigations(ctx)
+    }
+}));
