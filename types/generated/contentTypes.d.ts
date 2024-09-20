@@ -802,7 +802,6 @@ export interface ApiContactContact extends Schema.CollectionType {
   attributes: {
     to: Attribute.String & Attribute.Required & Attribute.Unique;
     info: Attribute.String & Attribute.Required & Attribute.Unique;
-    icon: Attribute.Media<'images' | 'files'> & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -814,38 +813,6 @@ export interface ApiContactContact extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::contact.contact',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiLanguageLanguage extends Schema.CollectionType {
-  collectionName: 'languages';
-  info: {
-    singularName: 'language';
-    pluralName: 'languages';
-    displayName: 'Language';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required & Attribute.Unique;
-    slug: Attribute.String & Attribute.Required & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::language.language',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::language.language',
       'oneToOne',
       'admin::user'
     > &
@@ -888,6 +855,20 @@ export interface ApiNavigationNavigation extends Schema.CollectionType {
       'api::navigation.navigation',
       'oneToMany',
       'api::navigation.navigation'
+    >;
+    subCategories: Attribute.Enumeration<
+      [
+        'Tin t\u1ED5ng h\u1EE3p',
+        'Tin ho\u1EA1t \u0111\u1ED9ng c\u1EE7a Amitech',
+        'Thi\u1EBFt b\u1ECB gi\u00E1m s\u00E1t \u0111i\u1EC7n',
+        'Thi\u1EBFt b\u1ECB gi\u00E1m s\u00E1t kh\u00ED n\u00E9n',
+        'Thi\u1EBFt b\u1ECB gi\u00E1m s\u00E1t ti\u00EAu th\u1EE5 n\u01B0\u1EDBc'
+      ]
+    >;
+    sub_categories: Attribute.Relation<
+      'api::navigation.navigation',
+      'oneToMany',
+      'api::sub-category.sub-category'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -942,10 +923,10 @@ export interface ApiPostPost extends Schema.CollectionType {
         }
       >;
     slug: Attribute.Text & Attribute.Required & Attribute.Unique;
-    product_category: Attribute.Relation<
+    sub_category: Attribute.Relation<
       'api::post.post',
       'manyToOne',
-      'api::product-category.product-category'
+      'api::sub-category.sub-category'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -957,37 +938,41 @@ export interface ApiPostPost extends Schema.CollectionType {
   };
 }
 
-export interface ApiProductCategoryProductCategory
-  extends Schema.CollectionType {
-  collectionName: 'product_categories';
+export interface ApiSubCategorySubCategory extends Schema.CollectionType {
+  collectionName: 'sub_categories';
   info: {
-    singularName: 'product-category';
-    pluralName: 'product-categories';
-    displayName: 'productCategory';
+    singularName: 'sub-category';
+    pluralName: 'sub-categories';
+    displayName: 'SubCategory';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String & Attribute.Required & Attribute.Unique;
-    description: Attribute.Text & Attribute.Required;
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    description: Attribute.String;
     posts: Attribute.Relation<
-      'api::product-category.product-category',
+      'api::sub-category.sub-category',
       'oneToMany',
       'api::post.post'
+    >;
+    navigation: Attribute.Relation<
+      'api::sub-category.sub-category',
+      'manyToOne',
+      'api::navigation.navigation'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::product-category.product-category',
+      'api::sub-category.sub-category',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::product-category.product-category',
+      'api::sub-category.sub-category',
       'oneToOne',
       'admin::user'
     > &
@@ -1014,10 +999,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::contact.contact': ApiContactContact;
-      'api::language.language': ApiLanguageLanguage;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::post.post': ApiPostPost;
-      'api::product-category.product-category': ApiProductCategoryProductCategory;
+      'api::sub-category.sub-category': ApiSubCategorySubCategory;
     }
   }
 }

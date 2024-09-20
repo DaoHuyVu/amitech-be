@@ -5,6 +5,7 @@
  */
 const { createCoreService } = require('@strapi/strapi').factories;
 
+
 async function calculateUrl(slug, getParent) {
     let url = '';
     let temp = slug;
@@ -14,7 +15,6 @@ async function calculateUrl(slug, getParent) {
         url = `${result.results[0].slug}${url}`;
         temp = result.results[0].parentNavigation; // Update temp to the next parent navigation
     }
-
     return url;
 }
 
@@ -36,3 +36,6 @@ module.exports = createCoreService('api::navigation.navigation', ({ strapi }) =>
         return { data, pagination };
     }
 }));
+{
+    
+}

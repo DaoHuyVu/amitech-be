@@ -21,15 +21,6 @@
       "type": "string",
       "required": true,
       "unique": true
-    },
-    "icon": {
-      "allowedTypes": [
-        "images",
-        "files"
-      ],
-      "type": "media",
-      "multiple": false,
-      "required": true
     }
   }
 }

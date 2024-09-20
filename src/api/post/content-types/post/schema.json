@@ -59,10 +59,10 @@
       "required": true,
       "unique": true
     },
-    "product_category": {
+    "sub_category": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::product-category.product-category",
+      "target": "api::sub-category.sub-category",
       "inversedBy": "posts"
     }
   }

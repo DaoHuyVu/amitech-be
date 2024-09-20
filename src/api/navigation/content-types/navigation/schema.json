@@ -62,6 +62,22 @@
       "relation": "oneToMany",
       "target": "api::navigation.navigation",
       "mappedBy": "navigation"
+    },
+    "subCategories": {
+      "type": "enumeration",
+      "enum": [
+        "Tin tổng hợp",
+        "Tin hoạt động của Amitech",
+        "Thiết bị giám sát điện",
+        "Thiết bị giám sát khí nén",
+        "Thiết bị giám sát tiêu thụ nước"
+      ]
+    },
+    "sub_categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::sub-category.sub-category",
+      "mappedBy": "navigation"
     }
   }
 }
