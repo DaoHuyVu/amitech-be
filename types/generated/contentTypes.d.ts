@@ -820,6 +820,118 @@ export interface ApiContactContact extends Schema.CollectionType {
   };
 }
 
+export interface ApiJobJob extends Schema.CollectionType {
+  collectionName: 'jobs';
+  info: {
+    singularName: 'job';
+    pluralName: 'jobs';
+    displayName: 'Job';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    jobName: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    jobCategory: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    jobQuantity: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    jobSalary: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    jobStatus: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    jobDate: Attribute.Date &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    jobContent: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'toolbar';
+        }
+      > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    thumbnail: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    location: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::job.job', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::job.job', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::job.job',
+      'oneToMany',
+      'api::job.job'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiNavigationNavigation extends Schema.CollectionType {
   collectionName: 'navigations';
   info: {
@@ -832,13 +944,10 @@ export interface ApiNavigationNavigation extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    name: Attribute.String & Attribute.Required;
     slug: Attribute.String & Attribute.Required & Attribute.Unique;
     parentNavigation: Attribute.String;
     menuLocation: Attribute.String;
-    hasChildren: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
     description: Attribute.Text;
     imageCover: Attribute.Media<'images'>;
     posts: Attribute.Relation<
@@ -856,16 +965,7 @@ export interface ApiNavigationNavigation extends Schema.CollectionType {
       'oneToMany',
       'api::navigation.navigation'
     >;
-    subCategories: Attribute.Enumeration<
-      [
-        'Tin t\u1ED5ng h\u1EE3p',
-        'Tin ho\u1EA1t \u0111\u1ED9ng c\u1EE7a Amitech',
-        'Thi\u1EBFt b\u1ECB gi\u00E1m s\u00E1t \u0111i\u1EC7n',
-        'Thi\u1EBFt b\u1ECB gi\u00E1m s\u00E1t kh\u00ED n\u00E9n',
-        'Thi\u1EBFt b\u1ECB gi\u00E1m s\u00E1t ti\u00EAu th\u1EE5 n\u01B0\u1EDBc'
-      ]
-    >;
-    sub_categories: Attribute.Relation<
+    subCategories: Attribute.Relation<
       'api::navigation.navigation',
       'oneToMany',
       'api::sub-category.sub-category'
@@ -923,11 +1023,14 @@ export interface ApiPostPost extends Schema.CollectionType {
         }
       >;
     slug: Attribute.Text & Attribute.Required & Attribute.Unique;
-    sub_category: Attribute.Relation<
+    subCategories: Attribute.Relation<
       'api::post.post',
       'manyToOne',
       'api::sub-category.sub-category'
     >;
+    postDate: Attribute.DateTime &
+      Attribute.DefaultTo<'2024-09-27T02:00:00.000Z'>;
+    excerp: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -999,6 +1102,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::contact.contact': ApiContactContact;
+      'api::job.job': ApiJobJob;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::post.post': ApiPostPost;
       'api::sub-category.sub-category': ApiSubCategorySubCategory;

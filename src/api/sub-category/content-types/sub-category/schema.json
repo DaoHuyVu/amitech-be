@@ -24,13 +24,13 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::post.post",
-      "mappedBy": "sub_category"
+      "mappedBy": "subCategories"
     },
     "navigation": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::navigation.navigation",
-      "inversedBy": "sub_categories"
+      "inversedBy": "subCategories"
     }
   }
 }

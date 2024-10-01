@@ -59,11 +59,19 @@
       "required": true,
       "unique": true
     },
-    "sub_category": {
+    "subCategories": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::sub-category.sub-category",
       "inversedBy": "posts"
+    },
+    "postDate": {
+      "type": "datetime",
+      "required": false,
+      "default": "2024-09-27T02:00:00.000Z"
+    },
+    "excerp": {
+      "type": "text"
     }
   }
 }
