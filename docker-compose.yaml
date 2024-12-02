@@ -1,0 +1,31 @@
+name: amitech
+services:
+  strapi:
+    container_name: strapi
+    build: .
+    restart: unless-stopped
+    env_file: .env.prod
+    #environment:
+      # DATABASE_CLIENT: ${DATABASE_CLIENT}
+      # DATABASE_HOST: strapiDB
+      # DATABASE_PORT: ${DATABASE_PORT}
+      # DATABASE_NAME: ${DATABASE_NAME}
+      # DATABASE_USERNAME: ${DATABASE_USERNAME}
+      # DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      # JWT_SECRET: ${JWT_SECRET}
+      # ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      # APP_KEYS: ${APP_KEYS}
+    volumes:
+      - ./config:/opt/app/config
+      - ./src:/opt/app/src
+      - ./package.json:/opt/package.json
+      - ./.env:/opt/app/.env
+      - ./public/uploads:/opt/app/public/uploads
+    ports:
+      - 127.0.0.1:1337:1337
+      - 127.0.0.1:9000:9000
+    networks:
+      - ami-net
+networks:
+  ami-net:
+    external: true
