@@ -26,6 +26,12 @@ services:
       - 127.0.0.1:9000:9000
     networks:
       - ami-net
+    healthcheck:
+     test: ["CMD","curl","-f","http://strapi:1337"]
+     interval: 10s
+     timeout: 10s
+     retries: 2
+     start_period: 5s
 networks:
   ami-net:
     external: true
